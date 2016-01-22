@@ -5,9 +5,18 @@
     background-color: #2e3248;
     color: whitesmoke;
     height: 700px;
-    width: 13%
+    width: 23%;
     list-style-type: none;
     font-size: 15px;
+}
+#innerwrapp{
+   height: 400px;
+    
+}
+#lower{
+    height: 200px;
+    width: 100%;
+    background-color:  #151825;
 }
 .elements{
     margin: 10px 10px 10px 10px;
@@ -17,7 +26,7 @@
     margin: 20px 20px 10px 10px;
 }
 .main{
-    height: 700px;
+    height: 500px;
     width: 80%;
     background-color: #C4C8E0;
 }

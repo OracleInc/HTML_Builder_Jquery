@@ -30,59 +30,175 @@
         <div class="side">
             <h5>ELEMENTS</h5>
            <div class="elements">
-                <button class="btn btn-primary" id="parTag">Paragraph</button>
-                <button  class="btn btn-info" id="H1Tag">H1 Tag</button>
-                <button  class="btn btn-primary" id="imgTag">Img Tag</button>
-                <button  class="btn btn-info" id="linkTag">Link Tag</button>
-                <button  class="btn btn-danger" id="tableTag">Table</button>
+                <p class="btn btn-primary" id="parTag">Paragraph</p>
+                <p  class="btn btn-info" id="H1Tag">H1 Tag</p>
+                <p  class="btn btn-primary" id="imgTag">Img Tag</p>
+                <p  class="btn btn-info" id="linkTag">Link Tag</p>
+                <p  class="btn btn-danger" id="tableTag">Table</p>
              </div>   
-      
-          
+              
        </div>
-         <div class="main dropp">
+         <div class="main dropp" id="dropContainer">
+ <button  class="btn btn-success pull-right" id="downloadTemplate">Download Template</button>
             <center> <h3>Drop Elements here</h3></center>
-             <p></p>
+             <div id="innerwrapp">  
+                    </hr> 
+                     <div id="innerwrappwithcontents">           
+                     <p></p>
+                     </div>
           </div>
+           <div id="lower">
+              
+              
+         </div>
+         
+         </div>
+         
           
        </div>
         
   </div>
     
   <script>
+      function allowEdit(value,n){
+                 
+                 var pId = n 
+                 var elementExists = document.getElementById("editBox")
+                 if(elementExists){
+                     console.log("I will not put an input box")
+                     //return false
+                 }
+                 else{
+                     var eId="#"+n
+                     console.log("I will create " +eId)
+                     var eId="#"+n
+                    $(eId).append("<input id='editBox'></input>")
+                   $("#editBox").keypress(function(e) {
+                        if(e.which == 13) {
+                         console.log("Enter ")
+                           
+                           var x = $("#editBox").val()
+                           console.log("Value" +x)
+                           $("#editBox").remove()
+                           $("#innerwrappwithcontents").append("<p id="+eId+" ondblclick='allowEdit("+value+"," +pId+ ")'>"+x+"</p>")
+                           //$(eId).remove()
+                        }
+                    })
+                    
+                 }   
+             
+      }
+           
+      
       $(document).ready(function(){
           console.log("loaded")
+           $("#parTag,#H1Tag,#imgTag,#linkTag,#tableTag").draggable({ revert: "invalid" })
+           
+            
         })
         
          $(".dropp").droppable({
           //console.log("I am a droppable")
+          
           activeClass: "ui-state-default",
           hoverClass: "ui-state-hover",
           drop: function( event, ui ) {
+          var idBeingDropped = ui.draggable.attr("id")
         $(this).addClass( "ui-state-highlight" )
-          .find( "p" )
+          .find( "p" ).html(createElement(idBeingDropped))
             }
+         })
+         function createElement(id){
+             //
+             if(id === "parTag"){
+                  var x= Math.floor(Math.random() * 50) + 1 
+                 var value = "parTag"
+                 var pId = x
+              
+              $("#parTag").toggle("explode").remove()
+              //Return the button to Sidebar
+              $(".elements").append("<p class='btn btn-primary' id='parTag'>Paragraph</p>")
+              $("#parTag").draggable()                          
+              //Lets add the Paragraph
+              $("#innerwrappwithcontents").append("<p id=" +pId+ " ondblclick='allowEdit("+value+"," +pId+ ")'>paragraph</p>")
+              
+             
+              $("#lower").append("<p class='btn btn-danger' id='parTag'>Paragraph</p>")
+              
+             //
             
-            //ALL DROPPABLE TAGS CREATION
-            
-            // ON DRAG PARAGRAPH
-            
-            $("#parTag").draggable()
-            
-            
-            
-            
+             //
+              
+              
+                 
+             }
+             if(id === "H1Tag"){
+                 console.log("Create H1")
+               $("#H1Tag").toggle("explode").remove()
+              //Return the button to Sidebar
+              $(".elements").append("<p class='btn btn-info' id='H1Tag'>H1 Tag</p>")
+              $("#H1Tag").draggable()                          
+              //Lets add the Paragraph
+              $("#innerwrappwithcontents").append("<H1></H1>")
+              $("#lower").append("<p class='btn btn-info' id='H1Tag'>H1 Tag</p>")
+                 
+             }
+             if(id === "imgTag"){
+                 console.log("img tag created")
+              $("#imgTag").toggle("explode").remove()
+              //Return the button to Sidebar
+              $(".elements").append("<p class='btn btn-primary' id='imgTag'>Image Tag</p>")
+              $("#imgTag").draggable()                          
+              //Lets add the Paragraph
+              $("#innerwrappwithcontents").append("<img></img>")
+              $("#lower").append("<p class='btn btn-primary id='imgTag'>Image Tag</p>")
+               
+                 
+             }
+             if(id === "linkTag"){
+                console.log("Link tag created")
+               $("#linkTag").toggle("explode").remove()
+              //Return the button to Sidebar
+              $(".elements").append("<p class='btn btn-success' id='linkTag'>Link Tag</p>")
+              $("#linkTag").draggable()                          
+              //Lets add the Paragraph
+              $("#lower").append("<p class='btn btn-success id='linkTag'>Link Tag</p>")
+              $("#innerwrappwithcontents").append("<img></img>")
+               
+                 
+             }
+             if(id === "tableTag"){
+                 console.log("Table appended")
+                  $("#tableTag").toggle("explode").remove()
+              //Return the button to Sidebar
+              $(".elements").append("<p class='btn btn-danger' id='tableTag'>Table Tag</p>")
+              $("#tableTag").draggable()                          
+              //Lets add the Paragraph
+              $("#innerwrappwithcontents").append("<table></table>")
+              $("#lower").append("<p class='btn btn-success id='tableTag'>Table Tag</p>")
+              
+                 
+             }
+         }
         
-    function createDraggable(){
-      //console.log("I will create a draggable")
-      var id = Math.floor(Math.random() * 50) + 1 
-      var value = $("#newTask").val()
-      $("#addTaskdiv").append($("<div class='item' id='drag"+id+"'><p>"+value+"</p></div>"))
-      $( "#drag"+id+"" ).draggable({ revert: "invalid" })
-      $( "#drag"+id+"" ).on('dblclick', function() {
-        $( "#drag"+id+"" ).remove()
-        })
-     
-     }
+    
+            // DOWNLOAD YOur HTML Template
+ $('#downloadTemplate').click(function(){
+    download(fileName, '#innerwrappwithcontent','text/html');
+})
+            
+            
+    function download(filename, wrapper_id , fileType) {
+    var wrapperHTML = document.getElementById(innerwrapp)
+    var link = document.createElement('a')
+    
+
+    link.setAttribute('download', filename);
+    link.setAttribute('href', 'data:' + fileType  +  ';charset=utf-8,' + encodeURIComponent(wrapperHTML));
+    link.click(); 
+}
+
+var fileName =  'template.txt';
              
         
   </script>  
